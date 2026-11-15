@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gromotovich — Abstract art, type &amp; calligraphy, branding, murals, workshops</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ============================================================
+     TYPOGRAPHY VARIABLES  (mirrors the Figma "Typography" collection)
+     ============================================================ */
+  :root {
+    --font: "Instrument Sans", system-ui, -apple-system, Arial, sans-serif;
+
+    --display-size: 105px;      --display-lh: 115.5px;
+    --h1-size: 64px;            --h1-lh: 70.4px;
+    --h2-size: 37px;            --h2-lh: 40.7px;
+    --subheadline-size: 30px;   --subheadline-lh: 33px;
+    --h4-size: 24px;            --h4-lh: 24px;
+    --h5-size: 16px;            --h5-lh: 17.6px;   /* SemiBold */
+    --body-large-size: 20px;    --body-large-lh: 24.2px;
+    --body-size: 16px;          --body-lh: 17.6px;
+    --label-size: 20px;         --label-lh: 20px;
+    --text-link-size: 16px;     --text-link-lh: 17.6px; /* Medium */
+    --wordmark-size: 48px;      --wordmark-lh: 52.8px;  /* SemiBold */
+
+    --ink: #1a1a1a; --ink-secondary: #767676; --paper: #fff; --line: #e5e5e5;
+    --gutter: 15px; --max: 1280px; --col-gap: 20px;
+  }
+
+  .t-display { font-size: var(--display-size); line-height: var(--display-lh); font-weight: 400; }
+  .t-h1 { font-size: var(--h1-size); line-height: var(--h1-lh); font-weight: 400; }
+  .t-h2 { font-size: var(--h2-size); line-height: var(--h2-lh); font-weight: 400; }
+  .t-subheadline { font-size: var(--subheadline-size); line-height: var(--subheadline-lh); font-weight: 400; }
+  .t-h4 { font-size: var(--h4-size); line-height: var(--h4-lh); font-weight: 400; }
+  .t-h5 { font-size: var(--h5-size); line-height: var(--h5-lh); font-weight: 600; }
+  .t-body-large { font-size: var(--body-large-size); line-height: var(--body-large-lh); font-weight: 400; }
+  .t-body { font-size: var(--body-size); line-height: var(--body-lh); font-weight: 400; }
+  .t-label { font-size: var(--label-size); line-height: var(--label-lh); font-weight: 400; }
+  .t-link { font-size: var(--text-link-size); line-height: var(--text-link-lh); font-weight: 500; }
+  .t-wordmark { font-size: var(--wordmark-size); line-height: var(--wordmark-lh); font-weight: 600; }
+
+  /* RESET */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body { font-family: var(--font); color: var(--ink); background: var(--paper); -webkit-font-smoothing: antialiased; }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  .secondary { color: var(--ink-secondary); }
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* image helpers */
+  .img-cover img, .img-contain img { width: 100%; height: 100%; }
+  .img-cover img { object-fit: cover; }
+  .img-contain img { object-fit: contain; }
+  .ph { background: #ededed; display: flex; align-items: center; justify-content: center; color: #9a9a9a; font-size: 12px; overflow: hidden; }
+
+  /* NAV — brand + email only */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 0; position: sticky; top: 0; z-index: 100; background: var(--paper); }
+  .topbar .brand { font-weight: 600; font-size: 18px; }
+  .topbar .email { font-size: var(--text-link-size); font-weight: 500; text-decoration: underline; text-underline-offset: 2px; }
+
+  /* HERO ICONS */
+  .hero-icons { display: flex; justify-content: space-between; gap: var(--col-gap); padding: 24px 0 40px; }
+  .hero-icons .icon { width: 130px; height: 130px; flex: 0 0 auto; }
+
+  /* INTRO */
+  .intro { padding: 24px var(--gutter) 48px; }
+  .intro h1 { margin: 0; max-width: 820px; }
+
+  .section-head { margin: 40px 0 24px; }
+
+  /* WORK / PROJECTS */
+  .project { padding: 24px 0 48px; border-top: 1px solid var(--line); }
+  .project .images { display: flex; gap: var(--col-gap); margin-bottom: 24px; }
+  .project .images .cell { flex: 1 1 0; aspect-ratio: 461 / 446; }
+  .project .images.two { justify-content: center; gap: 80px; }
+  .project .images.two .cell { flex: 0 1 460px; aspect-ratio: 393 / 557; }
+  .project .meta { display: flex; }
+  .project .meta .left { flex: 0 0 50%; padding-right: 40px; display: flex; gap: 16px; }
+  .project .meta .label { color: var(--ink-secondary); }
+  .project .meta .titles { display: flex; flex-direction: column; gap: 4px; }
+  .project .meta .right { flex: 0 0 50%; }
+  .project .meta .right .desc { margin: 0 0 24px; }
+
+  /* gromotovich gallery */
+  .gallery { display: flex; flex-wrap: wrap; gap: var(--col-gap); margin-bottom: 24px; }
+  .gallery .draw { flex: 0 0 calc((100% - 5 * var(--col-gap)) / 6); aspect-ratio: 1 / 1; }
+
+  /* TEAM */
+  .team { padding: 40px var(--gutter); border-top: 1px solid var(--line); }
+  .team .team-row { display: flex; }
+  .team .team-row > .col-left { flex: 0 0 50%; padding-right: 40px; }
+  .team .heads { flex: 0 0 50%; display: flex; gap: var(--col-gap); }
+  .team .head { flex: 1 1 0; }
+  .team .head .img { aspect-ratio: 302 / 298; margin-bottom: 18px; }
+  .team .head h4 { margin: 0 0 8px; }
+
+  /* STATS */
+  .stats { padding: 40px var(--gutter); }
+  .stats .row { display: flex; }
+  .stats .lead { flex: 0 0 50%; padding-right: 40px; }
+  .stats .nums { flex: 0 0 50%; display: flex; flex-direction: column; }
+  .stats .stat { padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .stats .stat:first-child { border-top: 1px solid var(--line); }
+  .stats .stat:last-child { border-bottom: none; }
+  .stats .stat .n { display: block; margin-bottom: 8px; }
+
+  /* CONNECT */
+  .connect { padding: 34px var(--gutter); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .connect p { margin: 0; max-width: 1220px; }
+
+  /* FOOTER */
+  footer.wrap { padding-top: 64px; padding-bottom: 24px; }
+  /* logo on the far left; OFFICE/CONTACT + SOCIAL occupy the right half (middle -> right edge) */
+  .footer-main { display: flex; justify-content: space-between; align-items: flex-start; gap: 40px; }
+  .footer-main .logo { width: 254px; height: 254px; flex: 0 0 auto; }
+  .footer-cols { flex: 0 0 50%; display: flex; gap: 40px; }
+  .footer-cols .col { flex: 1 1 0; }
+  .footer-cols .col h5 { margin: 0 0 12px; }
+  .footer-cols .col .line { margin: 2px 0; }
+  .footer-bar { display: flex; justify-content: space-between; align-items: baseline; margin-top: 48px; }
+  .footer-bar .mark { font-weight: 600; font-size: var(--wordmark-size); line-height: var(--wordmark-lh); }
+  .footer-bar .right { flex: 0 0 50%; display: flex; justify-content: space-between; gap: 24px; }
+
+  a.email { cursor: pointer; text-decoration: underline; text-underline-offset: 2px; }
+  #copied-toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--ink); color: var(--paper); padding: 8px 14px; border-radius: 6px;
+    font: 14px var(--font); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 50;
+  }
+
+  /* TABLET (<= 1024px) */
+  @media (max-width: 1024px) {
+    :root { --display-size: 88px; --display-lh: 97px; --h1-size: 52px; --h1-lh: 57px; --h2-size: 32px; --h2-lh: 35px; --wordmark-size: 40px; --wordmark-lh: 44px; }
+    .hero-icons .icon { width: 90px; height: 90px; }
+    .gallery .draw { flex: 0 0 calc((100% - 4 * var(--col-gap)) / 5); }
+    .stats .lead { flex-basis: 50%; }
+  }
+
+  /* MOBILE (<= 640px) */
+  @media (max-width: 640px) {
+    :root { --col-gap: 12px; --display-size: 56px; --display-lh: 62px; --h1-size: 36px; --h1-lh: 40px; --h2-size: 26px; --h2-lh: 29px; --subheadline-size: 24px; --subheadline-lh: 27px; --wordmark-size: 28px; --wordmark-lh: 31px; }
+    .hero-icons { flex-wrap: nowrap; }
+    .hero-icons .icon { width: 56px; height: 56px; }
+    .project .meta { flex-direction: column; gap: 24px; }
+    .project .meta .left, .project .meta .right { flex: 0 0 auto; padding-right: 0; max-width: none; }
+    .gallery .draw { flex: 0 0 calc((100% - 2 * var(--col-gap)) / 3); }
+    .team .team-row { flex-direction: column; }
+    .team .team-row > .col-left { flex: 0 0 auto; padding-right: 0; }
+    .team .heads { flex: 0 0 auto; flex-direction: column; }
+    .stats .row { flex-direction: column; gap: 24px; }
+    .stats .lead { flex: 0 0 auto; padding-right: 0; }
+    .stats .nums { flex: 0 0 auto; }
+    .footer-main { flex-direction: column; justify-content: flex-start; gap: 40px; }
+    .footer-main .logo { width: 180px; height: 180px; }
+    .footer-cols { flex: 0 0 auto; flex-direction: column; gap: 40px; }
+    .footer-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .footer-bar .right { flex: 0 0 auto; flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===================== NAV (brand + email only) ===================== -->
+  <header class="wrap">
+    <div class="topbar">
+      <div class="brand">Gromotovich</div>
+      <a class="email" href="mailto:oae.artem@gmail.com" data-email="oae.artem@gmail.com">oae.artem@gmail.com</a>
+    </div>
+
+    <div class="hero-icons">
+      <div class="icon img-contain"><img src="images/hero-icon-1.png" alt="" /></div>
+      <div class="icon img-contain"><img src="images/hero-icon-2.png" alt="" /></div>
+      <div class="icon img-contain"><img src="images/hero-icon-3.png" alt="" /></div>
+      <div class="icon img-contain"><img src="images/hero-icon-4.png" alt="" /></div>
+      <div class="icon img-contain"><img src="images/hero-icon-5.png" alt="" /></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- INTRO -->
+    <section class="intro wrap">
+      <h1 class="t-h1">Abstract art, type &amp; calligraphy, branding, murals, workshops</h1>
+    </section>
+
+    <!-- WORK -->
+    <section id="work" class="wrap">
+      <div class="section-head"><span class="t-h4">Work</span></div>
+
+      <!-- Gromotovich — 12-drawing gallery -->
+      <article class="project">
+        <div class="gallery">
+          <div class="draw img-contain"><img src="images/drawing-01.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-02.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-03.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-04.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-05.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-06.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-07.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-08.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-09.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-10.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-11.png" alt="" /></div>
+          <div class="draw img-contain"><img src="images/drawing-12.png" alt="" /></div>
+        </div>
+        <div class="meta">
+          <div class="left">
+            <span class="label t-h5">Project</span>
+            <div class="titles"><span class="t-h5">Gromotovich</span><span class="t-h5 secondary">Existential Drawings</span></div>
+          </div>
+          <div class="right">
+            <p class="desc t-body">Let’s reflect together</p>
+            <a class="t-link" href="https://www.instagram.com/gromotovich" target="_blank" rel="noopener" style="text-decoration:underline; text-underline-offset:2px;">See Project →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Sign for Forno Belfiore -->
+      <article class="project">
+        <div class="images">
+          <div class="cell img-cover"><img src="images/forno-1.jpg" alt="Forno Belfiore sign" /></div>
+          <div class="cell img-cover"><img src="images/forno-2.jpg" alt="Forno Belfiore sign" /></div>
+          <div class="cell img-cover"><img src="images/forno-3.jpg" alt="Forno Belfiore sign" /></div>
+        </div>
+        <div class="meta">
+          <div class="left">
+            <span class="label t-h5">Project</span>
+            <div class="titles"><span class="t-h5">Outdoor Sign for Forno Belfiore</span><span class="t-h5 secondary">Type Branding &amp; Taping, and Painting</span></div>
+          </div>
+          <div class="right">
+            <p class="desc t-body">The sign I designed and painted is now used as a logo. I do not mind; I am happy</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- White wall for Lihi Turjeman (GIF first) -->
+      <article class="project">
+        <div class="images">
+          <div class="cell img-cover"><img src="images/lihi-gif.gif" alt="Lihi wall (animated)" /></div>
+          <div class="cell img-cover"><img src="images/lihi-1.jpg" alt="Lihi wall in progress" /></div>
+          <div class="cell img-cover"><img src="images/lihi-2.jpg" alt="Lihi finished wall" /></div>
+        </div>
+        <div class="meta">
+          <div class="left">
+            <span class="label t-h5">Project</span>
+            <div class="titles"><span class="t-h5">White wall for Lihi Turjeman</span><span class="t-h5 secondary">Drywall Installation, Taping, and Painting</span></div>
+          </div>
+          <div class="right">
+            <p class="desc t-body">Lihi Turjeman is a fresco artist, my friend and neighbour. She asked to build her a work wall, so she could hang and take off paintings easily</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Logotype design (3 client logos) -->
+      <article class="project">
+        <div class="images">
+          <div class="cell img-contain"><img src="images/logo-unmaco.jpg" alt="Unmaco" /></div>
+          <div class="cell img-contain"><img src="images/logo-cuciolento.png" alt="Cuciolento" /></div>
+          <div class="cell img-contain"><img src="images/logo-raskati.png" alt="Raskati" /></div>
+        </div>
+        <div class="meta">
+          <div class="left">
+            <span class="label t-h5">Project</span>
+            <div class="titles"><span class="t-h5">Logotype design</span><span class="t-h5 secondary">Branding, logo, typography</span></div>
+          </div>
+          <div class="right">
+            <p class="desc t-body">If you ever need a logo or branding guide for your brand, I can develop one or consult</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Events posters (2 posters) -->
+      <article class="project">
+        <div class="images two">
+          <div class="cell img-contain"><img src="images/poster-dance.jpg" alt="DANCE poster" /></div>
+          <div class="cell img-contain"><img src="images/poster-cascina.png" alt="Cascina Fiume poster" /></div>
+        </div>
+        <div class="meta">
+          <div class="left">
+            <span class="label t-h5">Project</span>
+            <div class="titles"><span class="t-h5">Events posters</span><span class="t-h5 secondary">Illustration</span></div>
+          </div>
+          <div class="right">
+            <p class="desc t-body">Hand made graphic posters in an AI-era</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- TEAM -->
+    <section class="team wrap">
+      <div class="team-row">
+        <div class="col-left"><span class="t-h1">Our Team</span></div>
+        <div class="heads">
+        <div class="head">
+          <div class="img img-cover"><img src="images/team-artem.png" alt="Artem" /></div>
+          <h4 class="t-body-large">Artem</h4>
+          <p class="t-body-large secondary" style="margin:0">Founder and Creative Director</p>
+        </div>
+        <div class="head">
+          <div class="img ph">—</div>
+          <h4 class="t-body-large">That is it, actually</h4>
+          <p class="t-body-large secondary" style="margin:0">It is nice to meet you</p>
+        </div>
+      </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats wrap">
+      <div class="row">
+        <div class="lead"><p class="t-subheadline" style="margin:0">We craft visual strategies that elevate your brand.</p></div>
+        <div class="nums">
+          <div class="stat"><span class="n t-display">2026</span><span class="t-body secondary">Current year</span></div>
+          <div class="stat"><span class="n t-display">1</span><span class="t-body secondary">Call is required to clarify if i can do the job</span></div>
+          <div class="stat"><span class="n t-display">∞</span><span class="t-body secondary">Is much more then 8</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONNECT -->
+    <section class="connect wrap">
+      <p class="t-h2">Connect with me to explore your project’s potential.</p>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="wrap">
+    <div class="footer-main">
+      <div class="logo img-contain"><img src="images/footer-logo.png" alt="Gromotovich" /></div>
+      <div class="footer-cols">
+        <div class="col">
+          <h5 class="t-body">OFFICE</h5>
+          <p class="line t-body">I don’t have one. Let’s meet online or in person in Turin</p>
+          <h5 class="t-body" style="margin-top:32px">CONTACT</h5>
+          <p class="line t-body"><a class="email" href="mailto:oae.artem@gmail.com" data-email="oae.artem@gmail.com">oae.artem@gmail.com</a></p>
+          <p class="line t-body">whatsapp +79165795546</p>
+        </div>
+        <div class="col">
+          <h5 class="t-body">SOCIAL</h5>
+          <p class="line t-body"><a href="https://www.instagram.com/gromotovich" target="_blank" rel="noopener" style="text-decoration:underline; text-underline-offset:2px;">Instagram</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bar t-body">
+      <span class="mark">Gromotovich</span>
+      <div class="right">
+        <span class="secondary">© 2026 All rights reserved.</span>
+        <span class="secondary">Made by my alter ego</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- clicking any email copies it AND opens the mail-writing window -->
+  <div id="copied-toast" aria-live="polite">Email copied</div>
+  <script>
+    document.querySelectorAll("a.email").forEach(function (a) {
+      a.addEventListener("click", function () {
+        var email = a.getAttribute("data-email") || a.textContent.trim();
+        if (navigator.clipboard) { navigator.clipboard.writeText(email).catch(function () {}); }
+        var t = document.getElementById("copied-toast");
+        t.style.opacity = "1";
+        setTimeout(function () { t.style.opacity = "0"; }, 1400);
+      });
+    });
+  </script>
+
+</body>
+</html>
